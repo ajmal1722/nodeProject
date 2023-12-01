@@ -2,17 +2,20 @@ const fs = require('fs');
 const http = require('http');
 const { type } = require('os');
 
-const home = fs.readFileSync('./index.html');
-const form = fs.readFileSync('./form.html');
+const home = fs.readFileSync('./index.html', 'utf-8');
+const form = fs.readFileSync('./form.html', 'utf-8');
+const jsonData = JSON.parse(fs.readFileSync('./Datas/data.json', 'utf-8'))
 
 const server = http.createServer(function(req, res) {
     let path = req.url;
 
     if (path === '/' || path.toLowerCase() === 'home'){
         res.writeHead(200, {
-            'Content-Type' : 'text/html'
+            // 'Content-Type' : 'text/html'
+            'Content-Type' : 'application/json'
         })
-        res.end(home);
+        res.end('hello')
+        console.log(jsonData);
     } else if (path.toLowerCase() === '/form') {
         res.writeHead(200, {
             'Content-Type' : 'text/html'

@@ -1,0 +1,20 @@
+[
+    {
+        "no" : 1,
+        "name" : "Muhammed Ajmal",
+        "age" : 20,
+        "email" : "abc@gmail.com"
+    },
+    {
+        "no" : 2,
+        "name" : "Jon Snow",
+        "age" : 30,
+        "email" : "ac@gmail.com"
+    },
+    {
+        "no" : 1,
+        "name" : "Emily Blunt",
+        "age" : 22,
+        "email" : "ab@gmail.com"
+    }
+]
