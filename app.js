@@ -11,11 +11,11 @@ const server = http.createServer(function(req, res) {
 
     if (path === '/' || path.toLowerCase() === 'home'){
         res.writeHead(200, {
-            // 'Content-Type' : 'text/html'
-            'Content-Type' : 'application/json'
+            'Content-Type' : 'text/html'
+            // 'Content-Type' : 'application/json'
         })
-        res.end('hello')
-        console.log(jsonData);
+        const stringifyJsonData = JSON.stringify(jsonData)
+        res.end(home.replace('{{%CONTENT%}}', stringifyJsonData));
     } else if (path.toLowerCase() === '/form') {
         res.writeHead(200, {
             'Content-Type' : 'text/html'
