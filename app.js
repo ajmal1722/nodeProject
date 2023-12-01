@@ -14,8 +14,7 @@ const server = http.createServer(function(req, res) {
             'Content-Type' : 'text/html'
             // 'Content-Type' : 'application/json'
         })
-        const stringifyJsonData = JSON.stringify(jsonData)
-        res.end(home.replace('{{%CONTENT%}}', stringifyJsonData));
+        res.end(home.replace('{{%CONTENT%}}', jsonData));
     } else if (path.toLowerCase() === '/form') {
         res.writeHead(200, {
             'Content-Type' : 'text/html'
