@@ -2,19 +2,21 @@
     {
         "no" : 1,
         "name" : "Muhammed Ajmal",
-        "age" : 20,
-        "email" : "abc@gmail.com"
+        "age" : 22,
+        "phone" : 2045454,
+        "email" : "abc@gmail.com",
+        "gender" : "Male"
     },
     {
         "no" : 2,
         "name" : "Jon Snow",
-        "age" : 30,
+        "phone" : 30,
         "email" : "ac@gmail.com"
     },
     {
         "no" : 3,
         "name" : "Emily Blunt",
-        "age" : 22,
+        "phone" : 22,
         "email" : "ab@gmail.com"
     }
 ]

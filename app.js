@@ -13,6 +13,7 @@ const generateTableRows = () => {
                     <td>${entry.no}</td>
                     <td>${entry.name}</td>
                     <td>${entry.age}</td>
+                    <td>${entry.phone}</td>
                     <td>${entry.email}</td>
                     <td>${entry.gender}</td>
                 </tr>`

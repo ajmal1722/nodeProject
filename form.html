@@ -30,13 +30,15 @@
                 <h2 class=" pt-5">User Form</h2>
                 <form action="">
                     <div class=" p-3 ">
-                        <input type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp"><br>
+                        <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp"><br>
                         <small style="color: red" id="nameError"></small>
-                        <input type="text" id="phone" placeholder="Phone.." class="fst-italic mt-2 p-2 border rounded inp"><br>
+                        <input name="age" type="number" id="age" placeholder="Age.." class="fst-italic mt-2 p-2 border rounded inp"><br>
+                        <small style="color: red" id="nameError"></small>
+                        <input name="phone" type="text" id="phone" placeholder="Phone.." class="fst-italic mt-2 p-2 border rounded inp"><br>
                         <small style="color: red" id="numberError"></small>
-                        <input type="text" id="email" placeholder="Email.." class="fst-italic mt-2 p-2 border rounded inp"><br>
+                        <input name="email" type="text" id="email" placeholder="Email.." class="fst-italic mt-2 p-2 border rounded inp"><br>
                         <small style="color: red" id="emailError"></small>
-                        <select id="gender" class="form-select mx-5 mt-2" aria-label="Default select example" style="width: 260px;">
+                        <select name="gender" id="gender" class="form-select mx-5 mt-2" aria-label="Default select example" style="width: 260px;">
                             <option selected>Gender</option>
                             <option value="1">Male</option>
                             <option value="2">Female</option>
