@@ -20,6 +20,9 @@
       table { 
         width: 100%;
       }
+      .form-button{
+        margin-top: -25px;
+      }
     </style>
   </head>
   <body>
@@ -28,6 +31,13 @@
       
       {{%TABLE_CONTENT%}}
 
+    </div>
+    <div class="container">
+      <div class="d-flex justify-content-end">
+       <form action="/form" method="get">
+        <button type="submit" class="btn btn-success px-4 form-button">Form</button>
+       </form>
+      </div>
     </div>
   </body>
 </html>
