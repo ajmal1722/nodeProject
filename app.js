@@ -7,6 +7,8 @@ const form = fs.readFileSync('./form.html', 'utf-8');
 const tableTemplate = fs.readFileSync('./table.html', 'utf-8')
 const jsonData = JSON.parse(fs.readFileSync('./Datas/data.json', 'utf-8'))
 
+let rowCounter = jsonData.length + 1;
+
 const generateTableRows = () => {
     return  jsonData.map(entry => {
         return  `<tr>
@@ -51,11 +53,13 @@ const server = http.createServer(function(req, res) {
         req.on('end',() => {
             const formData = querystring.parse(body);
 
+            formData.no = rowCounter++; 
+
             jsonData.push(formData)
             fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
 
             res.writeHead(200, {'Content-Type' : 'text-plain'});
-            res.end('Form submission Successful');
+            res.end(form);
         })
 
     } else {
