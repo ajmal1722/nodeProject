@@ -14,9 +14,12 @@ const generateTableRows = () => {
                     <td>${entry.name}</td>
                     <td>${entry.age}</td>
                     <td>${entry.phone}</td>
-
                     <td>${entry.email}</td>
                     <td>${entry.gender}</td>
+                    <td>
+                        <button style= "width : 100px" type="button" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>
+                        <button style= "width : 100px" type="button" class="btn btn-danger" onclick="deleteRow(${entry.no})">Delete</button>
+                    </td>
                 </tr>`
     }).join('')
             
