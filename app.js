@@ -23,14 +23,14 @@ const generateTableRows = () => {
 const server = http.createServer(function(req, res) {
     let path = req.url;
 
-    if (path === '/' || path.toLowerCase() === '/home?'){
+    if (path === '/' || path.toLowerCase() === '/home?' || path.toLowerCase() === '/home'){
         res.writeHead(200, {
             'Content-Type' : 'text/html'
             // 'Content-Type' : 'application/json'
         })
         const tableContent = tableTemplate.replace('{{%TABLE_BODY%}}', generateTableRows())
         res.end(home.replace('{{%TABLE_CONTENT%}}', tableContent));
-    } else if (path.toLowerCase() === '/form?') {
+    } else if (path.toLowerCase() === '/form?' || path.toLowerCase() === '/form') {
         res.writeHead(200, {
             'Content-Type' : 'text/html'
         })
