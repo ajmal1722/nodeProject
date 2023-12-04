@@ -48,7 +48,8 @@ const server = http.createServer(function(req, res) {
         req.on('end',() => {
             const formData = querystring.parse(body);
 
-            console.log('form data :',formData);
+            jsonData.push(formData)
+            fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
 
             res.writeHead(200, {'Content-Type' : 'text-plain'});
             res.end('Form submission Successful');
