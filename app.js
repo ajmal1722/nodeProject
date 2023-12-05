@@ -19,13 +19,16 @@ const generateTableRows = () => {
                     <td>${entry.email}</td>
                     <td>${entry.gender}</td>
                     <td>
-                        <button style= "width : 100px" type="button" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>
-                        <button style= "width : 100px" type="button" class="btn btn-danger" onclick="deleteRow(${entry.no})">Delete</button>
+                        <button style="width: 100px" type="button" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>
+                        <form action="/delete" method="get">
+                            <button style="width: 100px" type="submit" class="btn btn-danger" onclick="deleteRow(${entry.no})">Delete</button>                       
+                        </form>
                     </td>
                 </tr>`
     }).join('')
             
 }
+
 
 const server = http.createServer(function(req, res) {
     let path = req.url;
@@ -62,7 +65,11 @@ const server = http.createServer(function(req, res) {
             res.end(form);
         })
 
-    } else {
+    }else if (path.startsWith('/delete') || path.startsWith('/delete?')) {
+        
+        res.end('delete button works');
+    }
+     else {
         res.writeHead(404, {
             'Content-Type' : 'text/html'
         })
