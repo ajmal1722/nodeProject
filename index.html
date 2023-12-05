@@ -11,6 +11,9 @@
       crossorigin="anonymous"
     />
     <style>
+      body{
+        background-color: aliceblue;
+      }
       thead,th,td{
         padding: 10px;
       }
@@ -40,4 +43,18 @@
       </div>
     </div>
   </body>
+  <script>
+    function deleteRow(entryNumber) {
+        const xhr = new XMLHttpRequest();
+        xhr.open('GET', `/delete?entryNumber=${entryNumber}`, true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // Refresh the page after successful deletion
+                window.location.reload();
+            }
+        };
+        xhr.send();
+    }
+</script>
+
 </html>

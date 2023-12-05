@@ -19,9 +19,9 @@ const generateTableRows = () => {
                     <td>${entry.email}</td>
                     <td>${entry.gender}</td>
                     <td>
-                        
                         <form action="/edit" method="get">
-                        <button style="width: 100px" type="submit" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>                        </form>
+                            <button style="width: 100px" type="submit" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>                       
+                        </form>
                         <form action="/delete" method="get">
                             <button style="width: 100px" type="submit" class="btn btn-danger" onclick="deleteRow(${entry.no})">Delete</button>                       
                         </form>
@@ -50,7 +50,7 @@ const server = http.createServer(function(req, res) {
         res.end(form);
 
     } else if (path === '/submit' || path === '/submit?'){
-        console.log("req.method");
+        
         let body = '';
         req.on('data', (chunk) => {
             body += chunk;
@@ -69,7 +69,16 @@ const server = http.createServer(function(req, res) {
 
     } else if (path.startsWith('/delete') || path.startsWith('/delete?')) {
         
-        res.end('delete button works');
+        const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
+        console.log(entryNum)
+
+    const index = jsonData.findIndex(entry => entry.no === entryNum);
+    if (index !== -1) {
+        jsonData.splice(index, 1);
+        fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
+        res.writeHead(200, { 'Content-Type': 'text/plain' });
+        res.end('Entry deleted successfully');
+    }
 
     } else if (path.startsWith('/edit') || path.startsWith('/edit?')) {
         
