@@ -31,6 +31,7 @@ const generateTableRows = () => {
             
 }
 
+let array = [];
 
 const server = http.createServer(function(req, res) {
     let path = req.url;
@@ -58,21 +59,25 @@ const server = http.createServer(function(req, res) {
         req.on('end',() => {
             const formData = querystring.parse(body);
 
-            formData.no = rowCounter++; 
+            array = jsonData;
 
-            jsonData.push(formData)
-            fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
+            formData.no = array.length + 1;
+            // formData.no = rowCounter++; 
+            array.push(formData)
+
+            // jsonData.push(formData)
+            fs.writeFileSync('./Datas/data.json', JSON.stringify(array, null, 2));
 
             res.writeHead(200, {'Content-Type' : 'text-plain'});
             res.end(form);
         })
 
-    } else if (path.startsWith('/delete') || path.startsWith('/delete?')) {
+    } else if (path.startsWith('/delete?')) {
         
         const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
         console.log(entryNum)
 
-    const index = jsonData.findIndex(entry => entry.no === entryNum);
+    const index = jsonData.findIndex(entry => entry.no === entryNum);  
     if (index !== -1) {
         jsonData.splice(index, 1);
         fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
@@ -80,7 +85,7 @@ const server = http.createServer(function(req, res) {
         res.end('Entry deleted successfully');
     }
 
-    } else if (path.startsWith('/edit') || path.startsWith('/edit?')) {
+    } else if (path.startsWith('/edit?')) {
         
         res.end('edit button works');
     }
