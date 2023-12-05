@@ -79,7 +79,12 @@ const server = http.createServer(function(req, res) {
 
     const index = jsonData.findIndex(entry => entry.no === entryNum);  
     if (index !== -1) {
-        jsonData.splice(index, 1);
+        const deletedEntry = jsonData.splice(index, 1)[0];
+
+        for (let i = index; i < jsonData.length; i++){
+            jsonData[i].no--;
+        }
+
         fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
         res.writeHead(200, { 'Content-Type': 'text/plain' });
         res.end('Entry deleted successfully');
