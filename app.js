@@ -35,7 +35,7 @@ let array = [];
 
 const server = http.createServer(function(req, res) {
     let path = req.url;
-    console.log(path)
+   
     if (path === '/' || path === '/home?' || path === '/home'){
         res.writeHead(200, {
             'Content-Type' : 'text/html'
@@ -75,7 +75,6 @@ const server = http.createServer(function(req, res) {
     } else if (path.startsWith('/delete?') && req.method === 'DELETE') {
         
         const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
-        console.log(entryNum)
 
     const index = jsonData.findIndex(entry => entry.no === entryNum);  
     if (index !== -1) {
@@ -92,38 +91,20 @@ const server = http.createServer(function(req, res) {
 
     } else if (path.startsWith('/edit?')) {
        
-        let body = '';
-        req.on('data', (chink) => {
-            body += chunk;
-        });
+        const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
 
-        req.on('end', () => {
-            const formData = querystring.parse(body);
-            const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
+        const index = jsonData.findIndex(x => x.no === entryNum);
 
-            const index = jsonData.findIndex(x => x.no === entryNum)
-
-            if (index !== -1){
-            
-                let editData = jsonData[index];
-                console.log('Entry being edited:', editData);
-    
-                editData.no = entryNum;
-                editData.name = formData.name;
-                editData.age = formData.age;
-                editData.phone = formdata.phone;
-                editData.email = formdata.email;
-                editData.gender = formData.gender;
-    
-                fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end(form);
-            }
-
-        })
-       
-
+        if (index !== -1){
         
+            let editData = jsonData[index];
+            console.log('Entry being edited:', editData);
+
+            fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
+            res.writeHead(200, { 'Content-Type': 'text/plain' });
+            res.end(form);
+        }
+
     }
      else {
         res.writeHead(404, {
