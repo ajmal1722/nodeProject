@@ -7,6 +7,7 @@ const home = fs.readFileSync('./index.html', 'utf-8');
 const form = fs.readFileSync('./form.html', 'utf-8');
 const tableTemplate = fs.readFileSync('./table.html', 'utf-8')
 const jsonData = JSON.parse(fs.readFileSync('./Datas/data.json', 'utf-8'))
+const editedForm = fs.readFileSync('./editedForm.html', 'utf-8')
 
 let rowCounter = jsonData.length + 1;
 
@@ -101,10 +102,16 @@ const server = http.createServer(function(req, res) {
                 let editData = jsonData[index];
         
                 console.log('Entry being edited:', editData);
+                const formWithValue = form.replace('{{%NAME%}}', editData.name)
+                                            .replace('{{%AGE%}}', editData.age)
+                                            .replace('{{%PHONE%}}', editData.phone)
+                                            .replace('{{%EMAIL%}}', editData.email)
+                                            .replace('{{%GENDER%}}', editData.gender);
         
                 fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
-                res.writeHead(200, { 'Content-Type': 'text/plain' });
-                res.end(form);
+                res.writeHead(302, { 'Location': '/editedForm.html'  });
+                console.log('delete request received')
+                res.end();
             }
         } catch (error) {
             console.log('error message :', error);

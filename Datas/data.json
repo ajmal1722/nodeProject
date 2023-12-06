@@ -1,8 +1,18 @@
 [
   {
+    "name": "kswkam",
+    "age": "46",
+    "phone": "45454654",
+    "email": "Etfgg@gmail.com",
+    "gender": "Male",
     "no": 1
   },
   {
+    "name": "Muhammed Ajmal ",
+    "age": "",
+    "phone": "45454654",
+    "email": "Etfgg@gmail.com",
+    "gender": "Gender",
     "no": 2
   },
   {
@@ -12,13 +22,5 @@
     "email": "",
     "gender": "Gender",
     "no": 3
-  },
-  {
-    "name": "kswkam",
-    "age": "46",
-    "phone": "45454654",
-    "email": "Etfgg@gmail.com",
-    "gender": "Male",
-    "no": 4
   }
 ]

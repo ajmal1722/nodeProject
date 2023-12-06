@@ -57,12 +57,12 @@
       .catch(error => console.log('Error : ', error));
   }
   function editRow(entryNumber) {
-    fetch(`/edit?entryNumber=${entryNumber}`,{method : 'PUT'})
+    fetch(`/edit?entryNumber=${entryNumber}`,{method : 'GET'})
       .then(response => {
         if (response.ok){
-          window.location.reload();
+          window.location.href = '/editedForm.html';
         }else{
-          console.log('failed to delete entry')
+          console.log('failed to  edit the datas')
         }
       })
       .catch(error => console.log('Error : ', error));
