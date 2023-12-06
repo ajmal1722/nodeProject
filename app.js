@@ -1,3 +1,4 @@
+const { error } = require('console');
 const fs = require('fs');
 const http = require('http');
 const querystring = require('querystring')
@@ -91,19 +92,24 @@ const server = http.createServer(function(req, res) {
 
     } else if (path.startsWith('/edit?')) {
        
-        const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
-
-        const index = jsonData.findIndex(x => x.no === entryNum);
-
-        if (index !== -1){
+        try {
+            const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
         
-            let editData = jsonData[index];
-            console.log('Entry being edited:', editData);
-
-            fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(form);
+            const index = jsonData.findIndex(x => x.no === entryNum);
+        
+            if (index !== -1) {
+                let editData = jsonData[index];
+        
+                console.log('Entry being edited:', editData);
+        
+                fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end(form);
+            }
+        } catch (error) {
+            console.log('error message :', error);
         }
+        
 
     }
      else {
