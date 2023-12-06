@@ -72,14 +72,14 @@ const server = http.createServer(function(req, res) {
             res.end(form);
         })
 
-    } else if (path.startsWith('/delete?')) {
+    } else if (path.startsWith('/delete?') && req.method === 'DELETE') {
         
         const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
         console.log(entryNum)
 
     const index = jsonData.findIndex(entry => entry.no === entryNum);  
     if (index !== -1) {
-        const deletedEntry = jsonData.splice(index, 1)[0];
+        const deletedEntry = jsonData.splice(index, 1);
 
         for (let i = index; i < jsonData.length; i++){
             jsonData[i].no--;
@@ -91,8 +91,39 @@ const server = http.createServer(function(req, res) {
     }
 
     } else if (path.startsWith('/edit?')) {
+       
+        let body = '';
+        req.on('data', (chink) => {
+            body += chunk;
+        });
+
+        req.on('end', () => {
+            const formData = querystring.parse(body);
+            const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
+
+            const index = jsonData.findIndex(x => x.no === entryNum)
+
+            if (index !== -1){
+            
+                let editData = jsonData[index];
+                console.log('Entry being edited:', editData);
+    
+                editData.no = entryNum;
+                editData.name = formData.name;
+                editData.age = formData.age;
+                editData.phone = formdata.phone;
+                editData.email = formdata.email;
+                editData.gender = formData.gender;
+    
+                fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
+                res.writeHead(200, { 'Content-Type': 'text/plain' });
+                res.end(form);
+            }
+
+        })
+       
+
         
-        res.end('edit button works');
     }
      else {
         res.writeHead(404, {

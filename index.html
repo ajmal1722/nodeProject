@@ -44,17 +44,31 @@
     </div>
   </body>
   <script>
-    function deleteRow(entryNumber) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', `/delete?entryNumber=${entryNumber}`, true);
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Refresh the page after successful deletion
-                window.location.reload();
-            }
-        };
-        xhr.send();
-    }
+
+  function deleteRow(entryNumber) {
+    fetch(`/delete?entryNumber=${entryNumber}`,{method : 'DELETE'})
+      .then(response => {
+        if (response.ok){
+          window.location.reload();
+        }else{
+          console.log('failed to delete entry')
+        }
+      })
+      .catch(error => console.log('Error : ', error));
+  }
+  function editRow(entryNumber) {
+    fetch(`/edit?entryNumber=${entryNumber}`,{method : 'PUT'})
+      .then(response => {
+        if (response.ok){
+          window.location.reload();
+        }else{
+          console.log('failed to delete entry')
+        }
+      })
+      .catch(error => console.log('Error : ', error));
+  }
+
+
 </script>
 
 </html>
