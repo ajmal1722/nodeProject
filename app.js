@@ -100,6 +100,9 @@ function handleRequest(req, res) {
       res.end("Entry deleted successfully");
     }
     
+  } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit')) {
+    
+        res.end(path)
   } else {
     res.writeHead(404, { "Content-Type": "text/html" });
     res.end("Error 404: Page not found");

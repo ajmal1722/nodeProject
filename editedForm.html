@@ -30,6 +30,7 @@
                 <h2 class=" pt-5">User Form</h2>
                 <form action="/editSubmit" method="put">
                     <div class=" p-3 ">
+                        <input type="hidden" name="no" value="{{%ENTRY_NUMBER%}}">
                         <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}"><br>
                         <small style="color: red" id="nameError"></small>
                         <input name="age" type="number" id="age" placeholder="Age.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%AGE%}}"><br> 
@@ -50,7 +51,7 @@
                     </div>
                 </form>
                 <form action="/home">
-                    <input class="btn btn-success px-4 btn-home" type="submit" value="Home">
+                    <input class="btn btn-danger px-4 btn-home" type="submit" value="Cancel">
                 </form>
             </div>
         </div>
