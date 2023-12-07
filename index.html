@@ -56,11 +56,12 @@
       })
       .catch(error => console.log('Error : ', error));
   }
+  
   function editRow(entryNumber) {
     fetch(`/edit?entryNumber=${entryNumber}`,{method : 'GET'})
       .then(response => {
         if (response.ok){
-          window.location.href = '/editedForm.html';
+          window.location.href = `/editedForm?entryNumber=${entryNumber}`
         }else{
           console.log('failed to  edit the datas')
         }

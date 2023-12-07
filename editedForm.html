@@ -28,7 +28,7 @@
         <div class="d-flex justify-content-center">
             <div class="bg-light div-bord mt-5" style="width: 380px;">
                 <h2 class=" pt-5">User Form</h2>
-                <form action="/submit" method="post">
+                <form action="/submit" method="put">
                     <div class=" p-3 ">
                         <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}"><br>
                         <small style="color: red" id="nameError"></small>
@@ -57,43 +57,79 @@
     </div>
 
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
-        const submitButton = document.querySelector('.submit');
+        document.addEventListener('DOMContentLoaded', () => {
+            const submitButton = document.querySelector('input[type="submit"]');
 
-        submitButton.addEventListener('click', () => {
-            let name = document.getElementById('name').value;
-            let phone = document.getElementById('phone').value;
-            let email = document.getElementById('email').value;
-            let gender = document.getElementById('gender').value;
-
-            let nameValid = /^[A-Za-z\s]{3,}$/.test(name).toUpperCase();
-            let numberValid = /^\d{10,}$/.test(number);
-            let emailValid = /^[\w-.]+@[\w-]+\.+[\w-]{2,}$/.test(email);
-            
-            if (!nameValid) {
-                document.getElementById('nameError').innerHTML = 
-                'min 3 character required'
-            } else {
-                document.getElementById("nameError").innerHTML = "";
-            } 
-            if (!numberValid) {
-            document.getElementById("numberError").innerHTML =
-              "Enter a valid phone number";
-          } else {
-            document.getElementById("numberError").innerHTML = "";
-          }
-          if (!emailValid) {
-            document.getElementById("emailError").innerHTML =
-              "Enter a valid mail id";
-          } else {
-            document.getElementById("emailError").innerHTML = "";
-          }
-          if (gender === 'Male' || gender === 'Female'){
-            document.getElementById('genderError').innerHTML = 
-            'chose a gender'
-          }
-        })
-      })
-    </script>
+      
+          submitButton.addEventListener('click', (event) => {
+            //   event.preventDefault(); // Prevent default form submission
+      
+              let name = document.getElementById('name').value;
+              let phone = document.getElementById('phone').value;
+              let email = document.getElementById('email').value;
+              let gender = document.getElementById('gender').value;
+      
+              let nameValid = /^[A-Za-z\s]{3,}$/.test(name);
+              let numberValid = /^\d{10,}$/.test(phone);
+              let emailValid = /^[\w-.]+@[\w-]+\.+[\w-]{2,}$/.test(email);
+              
+              if (!nameValid) {
+                  document.getElementById('nameError').innerHTML = 
+                  'min 3 characters required';
+                  return; // Stop execution if validation fails
+              } else {
+                  document.getElementById("nameError").innerHTML = "";
+              } 
+      
+              if (!numberValid) {
+                  document.getElementById("numberError").innerHTML =
+                      "Enter a valid phone number";
+                  return;
+              } else {
+                  document.getElementById("numberError").innerHTML = "";
+              }
+      
+              if (!emailValid) {
+                  document.getElementById("emailError").innerHTML =
+                      "Enter a valid email address";
+                  return;
+              } else {
+                  document.getElementById("emailError").innerHTML = "";
+              }
+      
+              if (gender === 'Gender') {
+                  document.getElementById('genderError').innerHTML = 
+                      'Choose a gender';
+                  return;
+              } else {
+                  document.getElementById('genderError').innerHTML = "";
+              }
+      
+              // If all validations pass, send the data to the server
+              fetch('/edit', {
+                  method: 'PUT',
+                  headers: {
+                      'Content-Type': 'application/x-www-form-urlencoded',
+                  },
+                  body: new URLSearchParams({
+                      name: name,
+                      phone: phone,
+                      email: email,
+                      gender: gender,
+                  }),
+              })
+              .then(response => {
+                  if (response.ok){
+                      // Redirect to home or wherever you want
+                      window.location.href = '/editedForm';
+                  } else {
+                      console.log('Failed to edit the data');
+                  }
+              })
+              .catch(error => console.log('Error:', error));
+          });
+        });
+      </script>
+      
 </body>
 </html>

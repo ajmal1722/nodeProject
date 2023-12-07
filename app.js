@@ -52,7 +52,31 @@ const server = http.createServer(function(req, res) {
         })
         res.end(form);
 
-    } else if (path === '/submit' || path === '/submit?'){
+    }  else if (path === '/editedForm' || path.startsWith('/editedForm?')) {
+        // Extract the entryNumber from the URL parameters
+        const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
+      
+        // Find the corresponding entry in your data
+        const entry = jsonData.find(entry => entry.no === entryNum);
+      
+        if (entry) {
+          // Render the editedForm page with the entry data
+          // Replace this part with your actual rendering logic
+          const editedFormWithData = editedForm
+            .replace('{{%NAME%}}', entry.name)
+            .replace('{{%AGE%}}', entry.age)
+            .replace('{{%PHONE%}}', entry.phone)
+            .replace('{{%EMAIL%}}', entry.email)
+            .replace('{{%GENDER%}}', entry.gender);
+      
+          res.writeHead(200, { 'Content-Type': 'text/html' });
+          res.end(editedFormWithData);
+        } else {
+          // Handle the case where the entry is not found
+          res.writeHead(404, { 'Content-Type': 'text/html' });
+          res.end('Error 404: Entry not found');
+        }
+      } else if (path === '/submit' || path === '/submit?'){
         
         let body = '';
         req.on('data', (chunk) => {
@@ -91,7 +115,7 @@ const server = http.createServer(function(req, res) {
         res.end('Entry deleted successfully');
     }
 
-    } else if (path.startsWith('/edit?')) {
+    } else if (path.startsWith('/edit?') || path.startsWith('/edit')) {
        
         try {
             const entryNum = parseInt(querystring.parse(path.split('?')[1]).entryNumber);
@@ -109,7 +133,7 @@ const server = http.createServer(function(req, res) {
                                             .replace('{{%GENDER%}}', editData.gender);
         
                 fs.writeFileSync('./Datas/data.json', JSON.stringify(jsonData, null, 2));
-                res.writeHead(302, { 'Location': '/editedForm.html'  });
+                res.writeHead(302, { 'Location': '/'  });
                 console.log('delete request received')
                 res.end();
             }
