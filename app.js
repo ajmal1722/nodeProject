@@ -56,6 +56,7 @@ function handleRequest(req, res) {
 
     if (entry) {
       const editedFormWithData = editedForm
+      .replace("{{%ENTRY_NUMBER%}}", entry.no)
         .replace("{{%NAME%}}", entry.name)
         .replace("{{%AGE%}}", entry.age)
         .replace("{{%PHONE%}}", entry.phone)
@@ -101,8 +102,16 @@ function handleRequest(req, res) {
     }
     
   } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit')) {
-    
-        res.end(path)
+      try {
+        const entryNum = parseInt(querystring.parse(path.split("?")[1]).no);
+        console.log(entryNum);
+        
+        res.end(form)
+
+      } catch (error) {
+        console.error('Error message:', error.message);
+      }
+
   } else {
     res.writeHead(404, { "Content-Type": "text/html" });
     res.end("Error 404: Page not found");
