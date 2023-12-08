@@ -6,6 +6,7 @@ const home = fs.readFileSync("./index.html", "utf-8");
 const form = fs.readFileSync("./form.html", "utf-8");
 const tableTemplate = fs.readFileSync("./table.html", "utf-8");
 const editedForm = fs.readFileSync("./editedForm.html", "utf-8");
+const editedTableTemplate = fs.readFileSync('./editTable.html', 'utf-8')
 
 let jsonData = JSON.parse(fs.readFileSync("./Datas/data.json", "utf-8"));
 
@@ -56,7 +57,7 @@ function handleRequest(req, res) {
 
     if (entry) {
       const editedFormWithData = editedForm
-      .replace("{{%ENTRY_NUMBER%}}", entry.no)
+        .replace("{{%ENTRY_NUMBER%}}", entry.no)
         .replace("{{%NAME%}}", entry.name)
         .replace("{{%AGE%}}", entry.age)
         .replace("{{%PHONE%}}", entry.phone)
@@ -101,13 +102,26 @@ function handleRequest(req, res) {
       res.end("Entry deleted successfully");
     }
     
-  } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit')) {
+  } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit?')) {
       try {
         const entryNum = parseInt(querystring.parse(path.split("?")[1]).no);
-        console.log(entryNum);
-        
-        res.end(form)
+      
+        const entry = jsonData.find((entry) => entry.no === entryNum);
 
+        if (entry) {
+          const editedFormWithData = tableTemplate
+            .replace("{{%EDITNO%}}", entry.no)
+            .replace("{{%EDITNAME%}}", entry.name)
+            .replace("{{%EDITAGE%}}", entry.age)
+            .replace("{{%EDITPHONE%}}", entry.phone)
+            .replace("{{%EDITEMAIL%}}", entry.email)
+            .replace("{{%EDITGENDER%}}", entry.gender);
+    
+          res.writeHead(200, { "Content-Type": "text-plain" });
+          res.end(home);
+    
+        }
+       
       } catch (error) {
         console.error('Error message:', error.message);
       }
