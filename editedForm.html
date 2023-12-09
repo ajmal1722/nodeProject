@@ -28,7 +28,7 @@
         <div class="d-flex justify-content-center">
             <div class="bg-light div-bord mt-5" style="width: 380px;">
                 <h2 class=" pt-5">User Form</h2>
-                <form action="/editSubmit" method="put">
+                <form action="/editSubmit" method="post">
                     <div class=" p-3 ">
                         <input type="hidden" name="no" value="{{%ENTRY_NUMBER%}}">
                         <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}"><br>
@@ -66,6 +66,7 @@
             //   event.preventDefault(); // Prevent default form submission
       
               let name = document.getElementById('name').value;
+              let age = document.getElementById('age').value;
               let phone = document.getElementById('phone').value;
               let email = document.getElementById('email').value;
               let gender = document.getElementById('gender').value;
@@ -107,6 +108,9 @@
               }
       
               // If all validations pass, send the data to the server
+              if (nameValid && emailValid && numberValid) {
+                
+              }
               fetch('/edit', {
                   method: 'PUT',
                   headers: {
@@ -120,7 +124,7 @@
                   }),
               })
               .then(response => {
-                  if (response.ok){
+                  if (response.ok) {
                       // Redirect to home or wherever you want
                       window.location.href = '/editedForm';
                   } else {

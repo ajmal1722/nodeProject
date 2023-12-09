@@ -22,7 +22,7 @@ function generateTableRows() {
       <td>${entry.email}</td>
       <td>${entry.gender}</td>
       <td>
-        <form >
+        <form>
           <button style="width: 100px" type="submit" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>
         </form>
         <form action="/delete" method="get">
@@ -34,8 +34,8 @@ function generateTableRows() {
     .join("");
 }
 
-function handleRequest(req, res) {
-  const path = req.url;
+function handleRequest(req, res) { 
+  const path = req.url; 
 
   if (path === "/" || path === "/home" || path === "/home?") {
     const tableContent = tableTemplate.replace(
@@ -103,31 +103,51 @@ function handleRequest(req, res) {
     }
     
   } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit?')) {
-      try {
-        const entryNum = parseInt(querystring.parse(path.split("?")[1]).no);
-      
-        const entry = jsonData.find((entry) => entry.no === entryNum);
-
-        if (entry) {
-          const editedFormWithData = editedTableTemplate
-            .replace("{{%EDITNO%}}", entry.no)
-            .replace("{{%EDITNAME%}}", entry.name)
-            .replace("{{%EDITAGE%}}", entry.age)
-            .replace("{{%EDITPHONE%}}", entry.phone)
-            .replace("{{%EDITEMAIL%}}", entry.email)
-            .replace("{{%EDITGENDER%}}", entry.gender);
-    
-          res.writeHead(200, { "Content-Type": "text-plain" });
-          console.log(entry)
-          res.end(home);
-    
+    try {
+      const entryNum = parseInt(
+        querystring.parse(path.split("?")[1]).entryNumber
+      );
+        console.log(entryNum)
+      let body = '';
+      req.on('data', (chunk) => (body += chunk));  
+      req.on('end', () => {
+        const formData = querystring.parse(body);
+        const inputName = formData.name;
+        const inputAge = formData.age;
+        const inputPhone = formData.phone;
+        const inputEmail = formData.email;
+  
+        let editValue = jsonData.find(item => item.no === entryNum)
+  
+        if (editValue) {
+          // updating the values
+          editValue.name = inputName;
+          editValue.age = inputAge;
+          editValue.phone = inputPhone;
+          editValue.email = inputEmail;
+   
+          // saving the updated data to json file.
+          fs.writeFile("./Datas/data.json", JSON.stringify(jsonData, null, 2), (err) => {
+            if (err) {
+              console.log('Error writing to file:', err.message);
+              res.writeHead(500, { "Content-Type": "text-plain" });
+              res.end("Internal Server Error");
+            } else {
+              res.writeHead(200, { "Content-Type": "text-plain" });
+              res.end(form);
+            } 
+          });
+        } else {
+          res.writeHead(404, { "Content-Type": "text-plain" });
+          res.end('Entry not found');
         }
-       
-      } catch (error) {
-        console.error('Error message:', error.message);
-      }
-
-  } else {
+      }); 
+  
+    } catch (error) {
+      console.error('Error message:', error.message);
+    }
+  }
+   else {
     res.writeHead(404, { "Content-Type": "text/html" });
     res.end("Error 404: Page not found");
   }

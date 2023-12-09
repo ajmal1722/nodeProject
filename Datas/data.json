@@ -1,19 +1,26 @@
 [
-  
   {
     "name": "Muhammed Ajmal ",
-    "age": "12",
-    "phone": "8089459798",
+    "age": "18",
+    "phone": "1234567890",
+    "email": "Etfgg@gmail.com",
+    "gender": "Male",
+    "no": 1
+  },
+  {
+    "name": "sam",
+    "age": "19",
+    "phone": "8089340093",
     "email": "Etfgg@gmail.com",
     "gender": "Male",
     "no": 2
   },
   {
-    "name": "hamim ",
-    "age": "14",
-    "phone": "2345678898",
-    "email": "Etfgg@gmail.com",
-    "gender": "Male",
+    "name": "hama",
+    "age": "46",
+    "phone": "4545465445",
+    "email": "agjd@ds.com",
+    "gender": "Female",
     "no": 3
   }
 ]
