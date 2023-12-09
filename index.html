@@ -12,15 +12,17 @@
     />
     <style>
       body{
-        background-color: aliceblue;
+        background-color: rgba(16, 108, 89, 0.799);
       }
       thead,th,td{
-        padding: 10px;
+        padding: 10px; 
       }
-      tr {
+      /* tr {
         border: 1px solid black;
-      }
+      } */
       table { 
+        border-style: none;
+        border-radius: 20px;
         width: 100%;
       }
       .form-button{
@@ -29,8 +31,8 @@
     </style>
   </head>
   <body>
-    <div class="container  text-center my-5 p-3 border border-1">
-      <h1 class="bg-info mb-4">User Details</h1>
+    <div class="container text-center my-5 p-3">
+      <h1 class="text-white mb-4">User Details</h1>
       
       {{%TABLE_CONTENT%}}
 

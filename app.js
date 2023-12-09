@@ -40,7 +40,7 @@ function generateTableRows() {
 function handleRequest(req, res) { 
   const path = req.url; 
   const pathname = url.parse(req.url).pathname;
-  let {query,pathname:paths} =url.parse(req.url,true)
+  // let {query,pathname:paths} =url.parse(req.url,true)
   
 
   if (path === "/" || path === "/home" || path === "/home?") {
