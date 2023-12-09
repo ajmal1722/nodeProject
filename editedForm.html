@@ -28,7 +28,7 @@
         <div class="d-flex justify-content-center">
             <div class="bg-light div-bord mt-5" style="width: 380px;">
                 <h2 class=" pt-5">User Form</h2>
-                <form action="/editSubmit" method="post">
+                <form action="/editSubmit" method="post" >
                     <div class=" p-3 ">
                         <input type="hidden" name="no" value="{{%ENTRY_NUMBER%}}">
                         <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}"><br>
@@ -47,7 +47,7 @@
                         </select>
                     </div>
                     <div class="d-flex justify-content-end mx-5 mb-3">
-                        <input class="btn btn-primary px-4" type="submit" value="Submit">
+                        <button type="submit" id="" onclick=""    class="  col-md-7 col-12 border-0 p-2   rounded  my-0"> Update</button>
                     </div>
                 </form>
                 <form action="/home">
@@ -58,12 +58,15 @@
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const submitButton = document.querySelector('input[type="submit"]');
+document.addEventListener('DOMContentLoaded', () => {
+  const editForm = document.getElementById('editForm');
 
-      
-          submitButton.addEventListener('click', (event) => {
-            //   event.preventDefault(); // Prevent default form submission
+  editForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const url = new URL(editForm.action);
+    const entryNumber = url.searchParams.get('entryNumber');
+
+
       
               let name = document.getElementById('name').value;
               let age = document.getElementById('age').value;
@@ -111,29 +114,32 @@
               if (nameValid && emailValid && numberValid) {
                 
               }
-              fetch('/edit', {
-                  method: 'PUT',
-                  headers: {
-                      'Content-Type': 'application/x-www-form-urlencoded',
-                  },
-                  body: new URLSearchParams({
-                      name: name,
-                      phone: phone,
-                      email: email,
-                      gender: gender,
-                  }),
-              })
-              .then(response => {
-                  if (response.ok) {
-                      // Redirect to home or wherever you want
-                      window.location.href = '/editedForm';
-                  } else {
-                      console.log('Failed to edit the data');
-                  }
-              })
-              .catch(error => console.log('Error:', error));
-          });
-        });
+
+
+              fetch(`/editSubmit?entryNumber=${entryNumber}`, {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        name: name,
+        phone: phone,
+        email: email,
+        gender: gender,
+      }),
+    })
+      .then(response => {
+        if (response.ok) {
+          // Redirect to home or wherever you want
+          window.location.href = `/home?entryNumber=${entryNumber}`;
+        } else {
+          console.log('Failed to edit the data');
+        }
+      })
+      .catch(error => console.log('Error:', error));
+  });
+
+})
       </script>
       
 </body>

@@ -1,6 +1,9 @@
 const fs = require("fs");
 const http = require("http");
 const querystring = require("querystring");
+const paths = require('path');
+const url = require('url');
+
 
 const home = fs.readFileSync("./index.html", "utf-8");
 const form = fs.readFileSync("./form.html", "utf-8");
@@ -36,6 +39,9 @@ function generateTableRows() {
 
 function handleRequest(req, res) { 
   const path = req.url; 
+  const pathname = url.parse(req.url).pathname;
+  let {query,pathname:paths} =url.parse(req.url,true)
+  
 
   if (path === "/" || path === "/home" || path === "/home?") {
     const tableContent = tableTemplate.replace(
@@ -75,6 +81,7 @@ function handleRequest(req, res) {
   } else if (path === "/submit" || path === "/submit?") {
     let body = "";
     req.on("data", (chunk) => (body += chunk));
+    console.log(body)
     req.on("end", () => {
       const formData = querystring.parse(body);
       formData.no = jsonData.length + 1;
@@ -102,51 +109,55 @@ function handleRequest(req, res) {
       res.end("Entry deleted successfully");
     }
     
-  } else if (path.startsWith('/editSubmit') || path.startsWith('/editSubmit?')) {
-    try {
-      const entryNum = parseInt(
-        querystring.parse(path.split("?")[1]).entryNumber
-      );
-        console.log(entryNum)
-      let body = '';
-      req.on('data', (chunk) => (body += chunk));  
-      req.on('end', () => {
+  } else if (path.startsWith('/editSubmit') && req.method === 'POST') {
+    let body = '';
+    req.on('data', (chunk) => {
+        body += chunk;
+    });
+
+    req.on('end', () => {
         const formData = querystring.parse(body);
+        console.log(formData);
+
+        const inputNo = formData.no;
         const inputName = formData.name;
         const inputAge = formData.age;
         const inputPhone = formData.phone;
+        const inputNumber = formData.number;
         const inputEmail = formData.email;
-  
-        let editValue = jsonData.find(item => item.no === entryNum)
-  
-        if (editValue) {
-          // updating the values
-          editValue.name = inputName;
-          editValue.age = inputAge;
-          editValue.phone = inputPhone;
-          editValue.email = inputEmail;
-   
-          // saving the updated data to json file.
-          fs.writeFile("./Datas/data.json", JSON.stringify(jsonData, null, 2), (err) => {
-            if (err) {
-              console.log('Error writing to file:', err.message);
-              res.writeHead(500, { "Content-Type": "text-plain" });
-              res.end("Internal Server Error");
-            } else {
-              res.writeHead(200, { "Content-Type": "text-plain" });
-              res.end(form);
-            } 
-          });
+
+        console.log(typeof inputNo);
+        const inputNum = parseInt(inputNo);
+
+        let editValueIndex = jsonData.findIndex((item) => item.no === inputNum);
+        console.log(editValueIndex);
+
+        if (editValueIndex !== -1) {
+            // Update the values
+            let editValue = jsonData[editValueIndex];
+            editValue.name = inputName;
+            editValue.age = inputAge;
+            editValue.phone = inputPhone;
+            editValue.number = inputNumber;
+            editValue.email = inputEmail;
+
+            fs.writeFile('Datas/data.json', JSON.stringify(jsonData, null, 2), (err) => {
+                if (err) {
+                    console.error('Error writing to file:', err.message);
+                    res.writeHead(500, { "Content-Type": "application/json" });
+                    res.end(JSON.stringify({ error: "Internal Server Error" }));
+                } else {
+                    res.writeHead(200, { "Content-Type": "application/json" });
+                    res.end(JSON.stringify({ success: true }));
+                }
+            });
         } else {
-          res.writeHead(404, { "Content-Type": "text-plain" });
-          res.end('Entry not found');
+            res.writeHead(404, { "Content-Type": "application/json" });
+            res.end(JSON.stringify({ error: "Entry not found" }));
         }
-      }); 
-  
-    } catch (error) {
-      console.error('Error message:', error.message);
-    }
-  }
+    });
+}
+
    else {
     res.writeHead(404, { "Content-Type": "text/html" });
     res.end("Error 404: Page not found");
