@@ -22,7 +22,7 @@ function generateTableRows() {
       <td>${entry.email}</td>
       <td>${entry.gender}</td>
       <td>
-        <form action="/edit" method="get">
+        <form >
           <button style="width: 100px" type="submit" class="btn btn-success mb-2" onclick="editRow(${entry.no})">Edit</button><br>
         </form>
         <form action="/delete" method="get">
@@ -49,12 +49,12 @@ function handleRequest(req, res) {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(form);
 
-  } else if (path === "/editedForm" || path.startsWith("/editedForm?")) {
+  } else if (path.startsWith("/editedForm?")) {
     const entryNum = parseInt(
       querystring.parse(path.split("?")[1]).entryNumber
     );
     const entry = jsonData.find((entry) => entry.no === entryNum);
-
+   
     if (entry) {
       const editedFormWithData = editedForm
         .replace("{{%ENTRY_NUMBER%}}", entry.no)
@@ -64,9 +64,9 @@ function handleRequest(req, res) {
         .replace("{{%EMAIL%}}", entry.email)
         .replace("{{%GENDER%}}", entry.gender);
 
-      res.writeHead(200, { "Content-Type": "text/html" });
+      res.writeHead(200, { "Content-Type": "text-plain" });
       res.end(editedFormWithData);
-
+ 
     } else {
       res.writeHead(404, { "Content-Type": "text/html" });
       res.end("Error 404: Entry not found");
@@ -109,7 +109,7 @@ function handleRequest(req, res) {
         const entry = jsonData.find((entry) => entry.no === entryNum);
 
         if (entry) {
-          const editedFormWithData = tableTemplate
+          const editedFormWithData = editedTableTemplate
             .replace("{{%EDITNO%}}", entry.no)
             .replace("{{%EDITNAME%}}", entry.name)
             .replace("{{%EDITAGE%}}", entry.age)
@@ -118,6 +118,7 @@ function handleRequest(req, res) {
             .replace("{{%EDITGENDER%}}", entry.gender);
     
           res.writeHead(200, { "Content-Type": "text-plain" });
+          console.log(entry)
           res.end(home);
     
         }

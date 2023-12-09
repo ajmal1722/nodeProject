@@ -1,35 +1,19 @@
 [
-  {
-    "name": "kswkam",
-    "age": "46",
-    "phone": "45454654",
-    "email": "Etfgg@gmail.com",
-    "gender": "Male",
-    "no": 1
-  },
+  
   {
     "name": "Muhammed Ajmal ",
-    "age": "46",
+    "age": "12",
     "phone": "8089459798",
-    "email": "",
-    "gender": "Gender",
+    "email": "Etfgg@gmail.com",
+    "gender": "Male",
     "no": 2
   },
-  {},
   {
-    "name": "",
-    "age": "",
-    "phone": "",
-    "email": "",
-    "gender": "Gender",
-    "no": 4
-  },
-  {
-    "name": "",
-    "age": "",
-    "phone": "",
-    "email": "",
-    "gender": "Gender",
-    "no": 5
+    "name": "hamim ",
+    "age": "14",
+    "phone": "2345678898",
+    "email": "Etfgg@gmail.com",
+    "gender": "Male",
+    "no": 3
   }
 ]
