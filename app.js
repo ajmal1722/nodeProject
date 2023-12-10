@@ -71,7 +71,7 @@ function handleRequest(req, res) {
         .replace("{{%GENDER%}}", entry.gender);
 
       res.writeHead(200, { "Content-Type": "text-plain" });
-      res.end(editedFormWithData);
+      res.end(editedFormWithData); 
  
     } else {
       res.writeHead(404, { "Content-Type": "text/html" });
