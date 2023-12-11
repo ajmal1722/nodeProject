@@ -50,7 +50,7 @@
                 placeholder="Age.."
                 class="fst-italic mt-2 p-2 border rounded inp"
               /><br />
-              <small style="color: red" id="nameError"></small>
+              <small style="color: red" id="ageError"></small>
               <input
                 name="phone"
                 type="text"
@@ -77,8 +77,8 @@
                 <option selected>Gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-                <small style="color: red" id="genderError"></small>
-              </select>
+              </select><br />
+              <small style="color: red" id="genderError"></small>
             </div>
             <div class="d-flex justify-content-end mx-5 mb-3">
               <input
@@ -102,43 +102,50 @@
     <script>
       function validateForm() {
         let name = document.getElementById("name").value;
+        let age = document.getElementById("age").value;
         let phone = document.getElementById("phone").value;
         let email = document.getElementById("email").value;
         let gender = document.getElementById("gender").value;
 
         let nameValid = /^[A-Za-z\s]{3,}$/.test(name);
+        let ageValid = /^\d+$/.test(age);
         let phoneValid = /^\d{10,}$/.test(phone);
         let emailValid = /^[\w.-]+@[\w-]+\.+[\w-]{2,}$/.test(email);
+
+        // Reset error messages
+        document.getElementById("nameError").innerHTML = "";
+        document.getElementById("ageError").innerHTML = "";
+        document.getElementById("numberError").innerHTML = "";
+        document.getElementById("emailError").innerHTML = "";
+        document.getElementById("genderError").innerHTML = "";
 
         if (!nameValid) {
           document.getElementById("nameError").innerHTML =
             "Minimum 3 characters required";
           return false;
-        } else {
-          document.getElementById("nameError").innerHTML = "";
+        }
+
+        if (!ageValid) {
+          document.getElementById("ageError").innerHTML =
+            "Enter a valid age";
+          return false;
         }
 
         if (!phoneValid) {
           document.getElementById("numberError").innerHTML =
             "Enter a valid phone number";
           return false;
-        } else {
-          document.getElementById("numberError").innerHTML = "";
         }
 
         if (!emailValid) {
           document.getElementById("emailError").innerHTML =
             "Enter a valid email address";
           return false;
-        } else {
-          document.getElementById("emailError").innerHTML = "";
         }
 
-        if (gender === "Male" || gender === "Female") {
+        if (gender === "Gender") {
           document.getElementById("genderError").innerHTML = "Choose a gender";
           return false;
-        } else {
-          document.getElementById("genderError").innerHTML = "";
         }
 
         // If all validations pass, return true
@@ -147,3 +154,4 @@
     </script>
   </body>
 </html>
+
