@@ -55,29 +55,6 @@ function handleRequest(req, res) {
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(form);
 
-  } else if (path.startsWith("/editedForm?")) {
-    const entryNum = parseInt(
-      querystring.parse(path.split("?")[1]).entryNumber
-    );
-    const entry = jsonData.find((entry) => entry.no === entryNum);
-   
-    if (entry) {
-      const editedFormWithData = editedForm
-        .replace("{{%ENTRY_NUMBER%}}", entry.no)
-        .replace("{{%NAME%}}", entry.name)
-        .replace("{{%AGE%}}", entry.age)
-        .replace("{{%PHONE%}}", entry.phone)
-        .replace("{{%EMAIL%}}", entry.email)
-        .replace("{{%GENDER%}}", entry.gender);
-
-      res.writeHead(200, { "Content-Type": "text-plain" });
-      res.end(editedFormWithData); 
- 
-    } else {
-      res.writeHead(404, { "Content-Type": "text/html" });
-      res.end("Error 404: Entry not found");
-    }
-
   } else if (path === "/submit" || path === "/submit?") {
     let body = "";
     req.on("data", (chunk) => (body += chunk));
@@ -109,6 +86,29 @@ function handleRequest(req, res) {
       res.end("Entry deleted successfully");
     }
     
+  } else if (path.startsWith("/editedForm?")) {
+    const entryNum = parseInt(
+      querystring.parse(path.split("?")[1]).entryNumber
+    );
+    const entry = jsonData.find((entry) => entry.no === entryNum);
+   
+    if (entry) {
+      const editedFormWithData = editedForm
+        .replace("{{%ENTRY_NUMBER%}}", entry.no)
+        .replace("{{%NAME%}}", entry.name)
+        .replace("{{%AGE%}}", entry.age)
+        .replace("{{%PHONE%}}", entry.phone)
+        .replace("{{%EMAIL%}}", entry.email)
+        .replace("{{%GENDER%}}", entry.gender);
+
+      res.writeHead(200, { "Content-Type": "text-plain" });
+      res.end(editedFormWithData); 
+ 
+    } else {
+      res.writeHead(404, { "Content-Type": "text/html" });
+      res.end("Error 404: Entry not found");
+    }
+
   } else if (path.startsWith('/editSubmit') && req.method === 'POST') {
     let body = '';
     req.on('data', (chunk) => {
@@ -125,6 +125,7 @@ function handleRequest(req, res) {
         const inputPhone = formData.phone;
         const inputNumber = formData.number;
         const inputEmail = formData.email;
+        const inputGender = formData.gender;
 
         console.log(typeof inputNo);
         const inputNum = parseInt(inputNo);
@@ -140,6 +141,7 @@ function handleRequest(req, res) {
             editValue.phone = inputPhone;
             editValue.number = inputNumber;
             editValue.email = inputEmail;
+            editValue.gender = inputGender;
 
             fs.writeFile('Datas/data.json', JSON.stringify(jsonData, null, 2), (err) => {
                 if (err) {

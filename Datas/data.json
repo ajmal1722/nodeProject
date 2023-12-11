@@ -4,15 +4,7 @@
     "age": "",
     "phone": "",
     "email": "",
-    "gender": "Gender",
+    "gender": "Male",
     "no": 1
-  },
-  {
-    "name": "",
-    "age": "",
-    "phone": "",
-    "email": "",
-    "gender": "Gender",
-    "no": 2
   }
 ]
