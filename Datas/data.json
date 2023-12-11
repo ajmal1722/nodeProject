@@ -9,26 +9,18 @@
   },
   {
     "name": "kswkam",
-    "age": "",
-    "phone": "",
-    "email": "",
-    "gender": "Male",
+    "age": "46",
+    "phone": "8089459798",
+    "email": "Etfgg@gmail.com",
+    "gender": "Female",
     "no": 2
   },
   {
     "name": "kswkam",
-    "age": "",
-    "phone": "",
-    "email": "",
-    "gender": "Gender",
-    "no": 3
-  },
-  {
-    "name": "kswkam",
-    "age": "1555",
+    "age": "1",
     "phone": "8089459798",
     "email": "ajuajmal1722001@gmail.com",
-    "gender": "Male",
-    "no": 4
+    "gender": "Female",
+    "no": 3
   }
 ]

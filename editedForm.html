@@ -6,18 +6,18 @@
     <title>User CRUD Web App</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <style>
-        body{
-            font-family: sans-serif; 
+        body {
+            font-family: sans-serif;
             background-color: rgba(12, 12, 87, 0.799);
         }
-        .inp{
+        .inp {
             width: 280px;
         }
-        .div-bord{
+        .div-bord {
             border: 1px solid black;
             border-radius: 20px;
         }
-        .btn-home{
+        .btn-home {
             margin-left: -170px;
             margin-top: -100px;
         }
@@ -27,27 +27,27 @@
     <div class="container text-center my-5">
         <div class="d-flex justify-content-center">
             <div class="bg-light div-bord mt-5" style="width: 380px;">
-                <h2 class=" pt-5">User Form</h2>
-                <form action="/editSubmit" method="post" >
-                    <div class=" p-3 ">
+                <h2 class="pt-5">User Form</h2>
+                <form action="/editSubmit" method="post" onsubmit="return validateForm()">
+                    <div class="p-3">
                         <input type="hidden" name="no" value="{{%ENTRY_NUMBER%}}">
-                        <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}"><br>
+                        <input name="name" type="text" id="name" placeholder="Name.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%NAME%}}" /><br>
                         <small style="color: red" id="nameError"></small>
-                        <input name="age" type="number" id="age" placeholder="Age.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%AGE%}}"><br> 
-                        <small style="color: red" id="nameError"></small>
-                        <input name="phone" type="text" id="phone" placeholder="Phone.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%PHONE%}}"><br>
+                        <input name="age" type="number" id="age" placeholder="Age.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%AGE%}}" /><br>
+                        <small style="color: red" id="ageError"></small>
+                        <input name="phone" type="text" id="phone" placeholder="Phone.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%PHONE%}}" /><br>
                         <small style="color: red" id="numberError"></small>
-                        <input name="email" type="text" id="email" placeholder="Email.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%EMAIL%}}"><br>
+                        <input name="email" type="text" id="email" placeholder="Email.." class="fst-italic mt-2 p-2 border rounded inp" value="{{%EMAIL%}}" /><br>
                         <small style="color: red" id="emailError"></small>
                         <select name="gender" id="gender" class="form-select mx-5 mt-2" aria-label="Default select example" style="width: 260px;" value="{{%GENDER%}}">
                             <option selected>Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
-                            <small style="color: red" id="genderError"></small>
                         </select>
+                        <small style="color: red" id="genderError"></small>
                     </div>
                     <div class="d-flex justify-content-end mx-5 mb-3">
-                        <button type="submit" id="" onclick=""  class=" bg-success text-white col-md-7 col-12 border-0 p-2 rounded  my-0"> Update</button>
+                        <button type="submit" class="bg-success text-white col-md-7 col-12 border-0 p-2 rounded my-0">Update</button>
                     </div>
                 </form>
                 <form action="/home">
@@ -57,90 +57,57 @@
         </div>
     </div>
 
-    <!-- <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const editForm = document.getElementById('editForm');
+    <script>
+        function validateForm() {
+            let name = document.getElementById("name").value;
+            let age = document.getElementById("age").value;
+            let phone = document.getElementById("phone").value;
+            let email = document.getElementById("email").value;
+            let gender = document.getElementById("gender").value;
 
-  editForm.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const url = new URL(editForm.action);
-    const entryNumber = url.searchParams.get('entryNumber');
+            let nameValid = /^[A-Za-z\s]{3,}$/.test(name);
+            let ageValid = /^\d+$/.test(age);
+            let phoneValid = /^\d{10,}$/.test(phone);
+            let emailValid = /^[\w.-]+@[\w-]+\.+[\w-]{2,}$/.test(email);
 
+            // Reset error messages
+            document.getElementById("nameError").innerHTML = "";
+            document.getElementById("ageError").innerHTML = "";
+            document.getElementById("numberError").innerHTML = "";
+            document.getElementById("emailError").innerHTML = "";
+            document.getElementById("genderError").innerHTML = "";
 
-      
-              let name = document.getElementById('name').value;
-              let age = document.getElementById('age').value;
-              let phone = document.getElementById('phone').value;
-              let email = document.getElementById('email').value;
-              let gender = document.getElementById('gender').value;
-      
-              let nameValid = /^[A-Za-z\s]{3,}$/.test(name);
-              let numberValid = /^\d{10,}$/.test(phone);
-              let emailValid = /^[\w-.]+@[\w-]+\.+[\w-]{2,}$/.test(email);
-              
-              if (!nameValid) {
-                  document.getElementById('nameError').innerHTML = 
-                  'min 3 characters required';
-                  return; // Stop execution if validation fails
-              } else {
-                  document.getElementById("nameError").innerHTML = "";
-              } 
-      
-              if (!numberValid) {
-                  document.getElementById("numberError").innerHTML =
-                      "Enter a valid phone number";
-                  return;
-              } else {
-                  document.getElementById("numberError").innerHTML = "";
-              }
-      
-              if (!emailValid) {
-                  document.getElementById("emailError").innerHTML =
-                      "Enter a valid email address";
-                  return;
-              } else {
-                  document.getElementById("emailError").innerHTML = "";
-              }
-      
-              if (gender === 'Gender') {
-                  document.getElementById('genderError').innerHTML = 
-                      'Choose a gender';
-                  return;
-              } else {
-                  document.getElementById('genderError').innerHTML = "";
-              }
-      
-              // If all validations pass, send the data to the server
-              if (nameValid && emailValid && numberValid) {
-                
-              }
+            if (!nameValid) {
+                document.getElementById("nameError").innerHTML =
+                    "Minimum 3 characters required";
+                return false;
+            }
 
+            if (!ageValid) {
+                document.getElementById("ageError").innerHTML =
+                    "Enter a valid age";
+                return false;
+            }
 
-              fetch(`/editSubmit?entryNumber=${entryNumber}`, {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: new URLSearchParams({
-        name: name,
-        phone: phone,
-        email: email,
-        gender: gender,
-      }),
-    })
-      .then(response => {
-        if (response.ok) {
-          // Redirect to home or wherever you want
-          window.location.href = `/home?entryNumber=${entryNumber}`;
-        } else {
-          console.log('Failed to edit the data');
+            if (!phoneValid) {
+                document.getElementById("numberError").innerHTML =
+                    "Enter a valid phone number";
+                return false;
+            }
+
+            if (!emailValid) {
+                document.getElementById("emailError").innerHTML =
+                    "Enter a valid email address";
+                return false;
+            }
+
+            if (gender === "Gender") {
+                document.getElementById("genderError").innerHTML = "Choose a gender";
+                return false;
+            }
+
+            return true;
         }
-      })
-      .catch(error => console.log('Error:', error));
-  });
-
-})
-      </script> -->
-      
+    </script>
 </body>
 </html>
